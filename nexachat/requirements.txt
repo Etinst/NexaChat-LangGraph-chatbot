@@ -1,0 +1,16 @@
+# NexaChat — Python dependencies
+# Install with: pip install -r requirements.txt
+
+# ── LangChain / LangGraph core ──────────────────────
+langgraph>=0.2.0
+langchain-core>=0.2.0
+langchain-groq>=0.1.0
+
+# ── Frontend ────────────────────────────────────────
+streamlit>=1.35.0
+
+# ── Utilities ───────────────────────────────────────
+python-dotenv>=1.0.0
+
+# ── (Optional) SQLite checkpoint — included in langgraph ──
+# No extra install needed; langgraph bundles SqliteSaver
