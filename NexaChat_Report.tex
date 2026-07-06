@@ -1,0 +1,121 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{xcolor}
+
+\title{NexaChat Groq LangGraph Chatbot Improvement Report}
+\author{Darshan Nitin Barhate}
+\date{July 2026}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+NexaChat is a chatbot project made using Streamlit and LangGraph. Streamlit is used to make the web interface, while LangGraph is used to control the chatbot workflow. The improved project uses Groq for the language model responses.
+
+The main aim of this improvement work was to make the project cleaner, easier to run, and easier to understand. The project is written in a simple way so that a Class 12 student or beginner programmer can understand the main idea.
+
+\section{Project Objective}
+The objective of NexaChat is to show different chatbot features in one project:
+\begin{itemize}[leftmargin=*]
+    \item normal chatbot conversation,
+    \item saved conversation threads,
+    \item chatbot tools such as search and calculator,
+    \item PDF question answering using RAG,
+    \item simple Streamlit screens for each feature.
+\end{itemize}
+
+\section{Technologies Used}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}
+\hline
+\textbf{Technology} & \textbf{Use in the Project} \\
+\hline
+Python & Main programming language. \\
+\hline
+Streamlit & Creates the chatbot web pages. \\
+\hline
+LangGraph & Controls the flow of messages and tools. \\
+\hline
+Groq & Generates chatbot answers using a hosted LLM. \\
+\hline
+SQLite & Stores saved chat thread checkpoints. \\
+\hline
+FAISS & Searches PDF text chunks during RAG. \\
+\hline
+HuggingFace Embeddings & Converts PDF text into vectors for searching. \\
+\hline
+\end{tabular}
+
+\section{Improvements Made}
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Groq-based LLM setup:} The chatbot uses \texttt{langchain-groq} for the language model part.
+    \item \textbf{Shared settings file:} A new \texttt{app\_settings.py} file was added so the API key, model name, database path, and LLM creation are handled in one place.
+    \item \textbf{Environment variables:} Secret values are not written directly in the code. A sample \texttt{.env.example} file shows what users need to add.
+    \item \textbf{Cleaner backend code:} Separate backend files were kept for basic chat, saved chat, tool chat, and PDF RAG. This makes the project easier to study.
+    \item \textbf{PDF RAG improvement:} PDF question answering uses HuggingFace embeddings and FAISS vector search.
+    \item \textbf{Streamlit helper functions:} The \texttt{frontend\_helpers.py} file reduces repeated UI code and keeps the frontend files cleaner.
+    \item \textbf{Better documentation:} A detailed README and this LaTeX report were added so the project can be understood without reading every line of code first.
+\end{enumerate}
+
+\section{Important Files}
+\begin{itemize}[leftmargin=*]
+    \item \texttt{streamlit\_frontend.py}: Runs the basic chatbot.
+    \item \texttt{streamlit\_frontend\_database.py}: Runs the chatbot with saved conversation threads.
+    \item \texttt{streamlit\_frontend\_tool.py}: Runs the chatbot with tools.
+    \item \texttt{streamlit\_rag\_frontend.py}: Runs the PDF question-answering app.
+    \item \texttt{langgraph\_backend.py}: Basic LangGraph chatbot backend.
+    \item \texttt{langgraph\_database\_backend.py}: Backend with SQLite checkpoint memory.
+    \item \texttt{langgraph\_tool\_backend.py}: Backend with search, calculator, and stock quote tools.
+    \item \texttt{langraph\_rag\_backend.py}: Backend for PDF RAG.
+    \item \texttt{README.md}: Main project instructions.
+\end{itemize}
+
+\section{How the Chatbot Works}
+The user writes a message in the Streamlit chat box. Streamlit sends the message to the selected backend file. The backend uses LangGraph to manage the conversation. LangGraph then sends the message to the Groq chat model. The answer is returned to Streamlit and displayed on the page.
+
+In the tool version, the chatbot can call a tool when needed. For example, it can use the calculator for math questions or web search for current information.
+
+\section{How the PDF RAG Part Works}
+The PDF RAG feature works in simple steps:
+\begin{enumerate}[leftmargin=*]
+    \item The user uploads a PDF file.
+    \item The PDF text is loaded and split into small chunks.
+    \item Each chunk is converted into an embedding.
+    \item FAISS stores the embeddings.
+    \item When the user asks a question, FAISS finds the most related chunks.
+    \item The related chunks are given to the chatbot so it can answer using the PDF content.
+\end{enumerate}
+
+\section{How to Run the Project}
+First install the requirements:
+\begin{verbatim}
+pip install -r requirements.txt
+\end{verbatim}
+
+Then create a \texttt{.env} file using the sample file:
+\begin{verbatim}
+GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=llama-3.1-8b-instant
+NEXACHAT_DB=nexachat_threads.db
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+\end{verbatim}
+
+Run the basic app:
+\begin{verbatim}
+streamlit run streamlit_frontend.py
+\end{verbatim}
+
+Run the PDF app:
+\begin{verbatim}
+streamlit run streamlit_rag_frontend.py
+\end{verbatim}
+
+\section{Testing and Validation}
+The Python files were checked for syntax errors. This means the files can be parsed by Python successfully. A full live test still needs installed dependencies and a valid \texttt{GROQ\_API\_KEY}.
+
+\section{Conclusion}
+The improved NexaChat project is easier to understand and more organized than before. It has a Groq-based chatbot setup, cleaner settings, separate files for different chatbot features, saved chat memory, tool support, and PDF question answering. The project is suitable for learning how modern chatbot applications are built step by step.
+
+\end{document}
